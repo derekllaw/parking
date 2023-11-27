@@ -1,0 +1,51 @@
+https://smartcambridge.org/api/docs/#parking-read
+
+Token: parking
+Value: cb9e13991b6d3716b2a47fda106ad8d87bacff94
+
+To use a token for authentication, include it in an Authorization HTTP header in your requests, proceeded by the word Token and a single space:
+Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b
+For example:
+curl -H 'Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b' https://smartambridge.org/api/v1/aq/ 
+
+https://smartambridge.org/api/v1/parking/
+{
+"parking_list": [
+{
+"acp_id": "grafton-east-car-park",
+"acp_lat": 52.2072,
+"acp_lng": 0.1348,
+"feed_id": "cam_park_rss",
+"latitude": 52.2072,
+"longitude": 0.1348,
+"parking_id": "grafton-east-car-park",
+"parking_name": "Grafton East",
+"parking_type": "car_park"
+},
+..
+{
+"acp_id": "milton-park-and-ride",
+"acp_lat": 52.2452,
+"acp_lng": 0.151,
+"feed_id": "cam_park_rss",
+"latitude": 52.2452,
+"longitude": 0.151,
+"parking_id": "milton-park-and-ride",
+"parking_name": "P&R Milton",
+"parking_type": "park_and_ride"
+}
+]
+}
+
+GET /api/v1/parking/latest/grafton-east-car-park/
+{
+"acp_id": "grafton-east-car-park",
+"acp_ts": 1700843693,
+"feed_id": "cam_park_rss",
+"parking_id": "grafton-east-car-park",
+"spaces_capacity": 780,
+"spaces_free": 634,
+"spaces_occupied": 146,
+"ts": 1700843693,
+"date": "2023-11-24T16:34:53+00:00"
+}
