@@ -3,33 +3,26 @@
 load("render.star", "render")
 load("http.star","http")
 
-def render_countdown(count_from,count_to):
-    """ Render animated countdown
-
-    Args:
-        count_from: capacity
-        count_to: spaces
-
-    Returns:
-        render sequence
-    """
-    print("%d %d" % (count_from,count_to))
-    countdown = []
-    count = int(count_from)
-    step = 100
-    for _x in range(100):
-        countdown.append(render.Text("%d " % count, color="#0F0", font = "CG-pixel-4x5-mono"))
-        if count>(count_to + step):
-            count -= step
-        else:
-            step = step//10
-        if step>0:
-            print("%d %d" % (count,step))
-    return render.Sequence(children=countdown)
+def render_fixed(n):
+    text_num = "%d" % n
+    pad = ""
+    if len(text_num)==2:
+        pad = " "
+    elif len(text_num)==1:
+        pad = "  "
+    return(pad + text_num)
 
 def render_row(capacity,free,name):
+    """ Render row with spaces in green, or red if less than 10% free
+
+    Args:
+        capacity: total spaces
+        free: free spaces
+        name: text
+    """
+    space_colour = "#0F0" if free>(capacity//10) else "F00"
     return render.Row(children = [
-        render_countdown(capacity,free),
+        render.Text(render_fixed(free), color=space_colour, font = "CG-pixel-4x5-mono"),
         render.Marquee(child=render.Text(name,font = "CG-pixel-4x5-mono"),width=len(name)*4)
     ])
 
