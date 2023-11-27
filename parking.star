@@ -4,6 +4,14 @@ load("render.star", "render")
 load("http.star","http")
 
 def render_fixed(n):
+    """ Render number in at least 3 characters
+
+    Args:
+        n: number
+
+    Returns:
+        padded string
+    """
     text_num = "%d" % n
     pad = ""
     if len(text_num)==2:
