@@ -1,9 +1,15 @@
-""" Tidbyt app to show parking spaces in Cambridge UK Car Parks """
+"""
+Applet: Parking
+Summary: Car Park Spaces
+Description: Real Time spaces in Cambridge UK Car Parks
+Author: derekllaw
+"""
 
 load("render.star", "render")
 load("http.star","http")
 
 # constants
+DEFAULT_WHO = "The Doctor"
 API_BASE = "https://smartcambridge.org/api/v1/parking/"
 SCREEN_WIDTH = 64
 PARK = "car_park"
@@ -44,12 +50,18 @@ def render_row(capacity,free,name):
         render.Marquee(child=render.Text(name,font=font),width = (SCREEN_WIDTH - len(free_text)*5))
     ])
 
-def main():
+def main(config):
     """ Entry point
+
+    Args:
+        config: config object
 
     Returns:
         render root
     """
+    who = config.get("who", DEFAULT_WHO)
+    print("Hello, %s" % who)
+
     api_token = 'Token cb9e13991b6d3716b2a47fda106ad8d87bacff94'
     headers = {'Authorization': api_token}
 
