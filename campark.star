@@ -10,7 +10,6 @@ Uses Smart Cambridge parking API
 load("render.star", "render")
 load("http.star","http")
 load("secret.star","secret")
-load("cache.star","cache")
 
 # constants
 SECRET = "AV6+xWcEWfKUGe/P0Ndmq+DM9dPl/v//QNSfFjI+XkhQtHl59qJzWkT0cGkKVCbfpNsZQphvxjuG6jtmPYxsd1qBotcLqc6KaUCUDsUOqmhV1vtnpwel5GDk7EgzpLd+1lh6uHgiHbRCC/Sz0rJe75tqK7rLBW5cZovC8b3JSKaaeYWukYXWrJXp7CCU/A=="
@@ -20,7 +19,6 @@ BIG_FONT = "5x8"
 SMALL_FONT = "tom-thumb"
 PARK = "car_park"
 RIDE = "park_and_ride"
-
 
 def render_fixed(n):
     """ Render number in at least 3 characters
@@ -80,8 +78,7 @@ def main(config):
             rows.append(render.Text("API error %d" % response.status_code))
         else:
             park_list = response.json()["parking_list"]
-            count = { PARK: 0, RIDE: 0 }
-
+            count = { 'PARK': 0, 'RIDE': 0 }
 
             for park in park_list:
                 count[park["parking_type"]] += 1
