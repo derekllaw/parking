@@ -38,7 +38,7 @@ def render_fixed(n):
     return(pad + text_num)
 
 def render_row(capacity,free,name,font):
-    """ Render row with spaces in green, or red if less than 10% free
+    """ Render row with free spaces in green, or red if less than 10% free
 
     Args:
         capacity: total spaces
@@ -78,14 +78,13 @@ def main(config):
             rows.append(render.Text("API error %d" % response.status_code))
         else:
             park_list = response.json()["parking_list"]
-            count = { 'PARK': 0, 'RIDE': 0 }
+            count = { PARK: 0, RIDE: 0 }
 
             for park in park_list:
                 count[park["parking_type"]] += 1
 
-            for parking_type in [RIDE]:
-                font = BIG_FONT if count[park["parking_type"]]<=5 else SMALL_FONT
-                print("Rows: %d, Font: %s" % (count[park["parking_type"]],font))
+            for parking_type in [PARK]:
+                font = BIG_FONT if count[parking_type]<=5 else SMALL_FONT
                 for park in park_list:
                     if park["parking_type"] == parking_type:
                         api_latest = '{}/latest/{}/'.format(API_BASE,park["parking_id"])
