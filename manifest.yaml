@@ -1,8 +1,8 @@
 ---
-id: parking
-namee: Parking
-summary: Car Park Spaces
+id: campark
+name: CamPark
+summary: Cambridge Car Park Spaces
 desc: Real Time spaces in Cambridge UK Car Parks
 author: derekllaw
-fileName: parking.star
-packageName: parking
+fileName: campark.star
+packageName: campark
