@@ -7,11 +7,13 @@ Author: derekllaw
 Uses Smart Cambridge parking API
 """
 
-load("http.star", "http")
+# V1.0 - single page, horizontal scrolling
+# V2.0 - vertical scrolling with logo
+
 load("encoding/base64.star", "base64")
+load("http.star", "http")
 load("render.star", "render")
 load("secret.star", "secret")
-load("animation.star", "animation")
 
 # constants
 LOGO_GIF = base64.decode("""
@@ -55,7 +57,7 @@ BAD_COLOUR = "#F00"
 PARK = "car_park"
 RIDE = "park_and_ride"
 
-FONTS = ["tom-thumb","5x8","Dina_r400-6"]
+FONTS = ["tom-thumb", "5x8", "Dina_r400-6"]
 FONT_SMALL = 0
 FONT_LARGE = 1
 
@@ -107,7 +109,7 @@ def render_page(capacity, free, name, fontsize):
         children = [
             render.WrappedText(name, font = FONTS[fontsize], width = SCREEN_WIDTH),
             render.Text(free_text, color = free_colour, font = FONTS[fontsize + 1]),
-        ]
+        ],
     )
 
 def main(config):
@@ -121,20 +123,20 @@ def main(config):
     """
 
     # Collect output rows here
-    rows = [ render.Image(src = LOGO_GIF)]
+    rows = [render.Image(src = LOGO_GIF)]
 
     api_token = secret.decrypt(SECRET) or config.get("api_token")
 
     # check for missing api_token
     if not api_token:
-        rows.append(render.Text("No key found",color = BAD_COLOUR))
+        rows.append(render.Text("No key found", color = BAD_COLOUR))
     else:
         headers = {"Authorization": "Token %s" % api_token}
 
         # fetch list of parking ids
         response = http.get(API_BASE, headers = headers, ttl_seconds = 60 * 60 * 24)  # this list is unlikely to change
         if response.status_code != 200:
-            rows.append(render.Text("API error %d" % response.status_code),color = BAD_COLOUR)
+            rows.append(render.Text("API error %d" % response.status_code), color = BAD_COLOUR)
         else:
             park_list = response.json()["parking_list"]
             count = {PARK: 0, RIDE: 0}
@@ -142,7 +144,7 @@ def main(config):
             for park in park_list:
                 count[park["parking_type"]] += 1
 
-            for parking_type in [PARK,RIDE]:
+            for parking_type in [PARK, RIDE]:
                 fontsize = FONT_LARGE if count[parking_type] <= 5 else FONT_SMALL
                 for park in park_list:
                     if park["parking_type"] == parking_type:
@@ -153,13 +155,13 @@ def main(config):
                             rows.append(render.Text("API error %d" % response.status_code))
                         else:
                             data = response.json()
-                            rows.append(render_page(data["spaces_capacity"], data["spaces_free"], park["parking_name"].title(),fontsize))
+                            rows.append(render_page(data["spaces_capacity"], data["spaces_free"], park["parking_name"].title(), fontsize))
 
     return render.Root(
         show_full_animation = True,
         child = render.Marquee(
             child = render.Column(children = rows),
             height = SCREEN_HEIGHT,
-            scroll_direction = "vertical"
-        )
+            scroll_direction = "vertical",
+        ),
     )
