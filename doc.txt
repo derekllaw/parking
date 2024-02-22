@@ -1,3 +1,14 @@
+PIXLET commands
+
+
+pixlet devices
+
+pixlet login
+
+pixlet render .\campark.star api_token=cb9e13991b6d3716b2a47fda106ad8d87bacff94
+
+pixlet push suitably-especial-tasteful-hummingbird-365 .\campark.webp
+
 https://smartcambridge.org/api/docs/#parking-read
 
 Token: parking
